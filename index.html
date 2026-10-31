@@ -6,8 +6,10 @@
   <meta name="description" content="Лев Скуратов — код, робототехника, фотография и музыка. Проекты и материалы для подготовки.">
   <title>Лев Скуратов — личная мастерская</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css?v=20261028-links">
-  <script src="./content.js?v=20261028-links" defer></script><script src="./app.js" defer></script><script src="./rating.js?v=20261028-links" defer></script>
+  <link rel="stylesheet" href="./style.css?v=20261028-media">
+  <script src="./content.js?v=20261028-links" defer></script><script src="./app.js?v=20261028-media" defer></script><script src="./rating.js?v=20261028-links" defer></script>
+  <link rel="stylesheet" href="./media.css?v=albums-1?v=20261028-media">
+  <script src="./media-data.js?v=albums-1?v=20261028-media" defer></script><script src="./media.js?v=albums-1?v=20261028-media" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержимому</a>
@@ -48,7 +50,28 @@
   <div class="study-layout"><div class="study-intro"><p>Меньше времени на поиск.<br>Больше — на понимание.</p><div class="study-note"><span>↗</span><p>Курсы и полезные ссылки собраны по предметам. Личные материалы появятся здесь после подключения папок Google Диска.</p></div><div class="study-meta mono">ПИРС / УЧЕБНЫЙ СТОЛ</div></div>
   <div class="study-catalog"><label class="search"><span aria-hidden="true">⌕</span><input id="material-search" type="search" aria-label="Поиск материалов для подготовки" placeholder="Найти предмет или материал" autocomplete="off"><kbd aria-hidden="true">/</kbd></label><div class="study-filters" role="group" aria-label="Фильтр материалов"><button data-filter="all" aria-pressed="true" class="active">Все</button><button data-filter="math" aria-pressed="false">Математика</button><button data-filter="code" aria-pressed="false">Код</button><button data-filter="robotics" aria-pressed="false">Робототехника</button></div><div id="materials" aria-live="polite"></div><p id="empty-state" hidden>Ничего не нашлось. Попробуй другой запрос.</p><p class="access-note">Закрытые файлы открываются только с разрешением владельца на Google Диске.</p></div></div>
 </div></section>
-<section class="section wrap outside" id="outside" aria-labelledby="outside-title"><div class="section-heading"><div><div class="eyebrow muted">03 / ДРУГАЯ ЧАСТОТА</div><h2 id="outside-title">Вне кода<span>.</span></h2></div><span class="mono muted small">СВЕТ / ЗВУК / ВНИМАНИЕ</span></div><div class="outside-grid"><article class="photo-panel"><div class="viewfinder" aria-hidden="true"><div class="aperture"><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="mono small">LIGHT IS THE SUBJECT</span></div><div class="outside-copy"><span class="eyebrow">01 / ФОТОГРАФИЯ</span><h3>Замечать больше.</h3><p>Свет, геометрия и моменты между событиями.</p><span class="soon mono">СЕРИИ СНИМКОВ — СКОРО</span></div></article><article class="music-panel"><div class="sound-visual" aria-hidden="true" id="sound-bars"></div><div class="outside-copy"><span class="eyebrow">02 / МУЗЫКА</span><h3>Слышать иначе.</h3><p>Ритм, фактура и пространство для эксперимента.</p><span class="soon mono">ЗАПИСИ — СКОРО</span></div></article></div></section>
+<section class="section wrap outside media-section" id="outside" aria-labelledby="outside-title">
+  <div class="section-heading"><div><div class="eyebrow muted">03 / ДРУГАЯ ЧАСТОТА</div><h2 id="outside-title">Вне кода<span>.</span></h2></div><span class="mono muted small">СВЕТ / ЗВУК / ВНИМАНИЕ</span></div>
+  <div class="media-tabs" role="tablist" aria-label="Фото и музыка">
+    <button id="photos-tab" role="tab" aria-selected="true" aria-controls="photos-panel" tabindex="0">Фотографии <span class="mono">72</span></button>
+    <button id="music-tab" role="tab" aria-selected="false" aria-controls="music-panel" tabindex="-1">Музыка <span class="mono">7</span></button>
+  </div>
+  <div id="photos-panel" role="tabpanel" aria-labelledby="photos-tab">
+    <div class="media-intro"><p>Свет, геометрия и моменты между событиями.</p><div class="photo-filters" role="group" aria-label="Серии фотографий"><button data-series="all" aria-pressed="true" class="active">Все снимки</button><button data-series="18.10.2026" aria-pressed="false">Серия 18.10</button><button data-series="21.10.2026" aria-pressed="false">Серия 21.10</button></div></div>
+    <div id="photo-grid" class="photo-grid"></div>
+    <div class="gallery-bottom"><span id="photo-count" class="mono muted small" aria-live="polite"></span><button id="more-photos" class="button gallery-more">Показать ещё <span>↓</span></button></div>
+  </div>
+  <div id="music-panel" role="tabpanel" aria-labelledby="music-tab" hidden>
+    <div class="media-intro"><p>Ритм, фактура и пространство для эксперимента.</p><span class="mono muted small">ВЫБЕРИ ТРЕК, ЧТОБЫ СЛУШАТЬ</span></div>
+    <div id="track-grid" class="track-grid"></div>
+  </div>
+  <noscript><p>Включи JavaScript, чтобы открыть галерею и музыкальный каталог.</p></noscript>
+</section>
+<dialog id="photo-viewer" class="photo-viewer" aria-label="Просмотр фотографии">
+  <div class="viewer-top"><div><span id="viewer-position" class="mono"></span><span id="viewer-caption"></span></div><button id="viewer-close" aria-label="Закрыть фотографию">×</button></div>
+  <div id="viewer-stage" class="viewer-stage"><img id="viewer-image" alt=""><p id="viewer-error" hidden>Не удалось загрузить снимок. <a id="viewer-retry" target="_blank" rel="noopener noreferrer">Открыть отдельно ↗</a></p></div>
+  <div class="viewer-bottom"><button id="viewer-prev" aria-label="Предыдущая фотография">←</button><span class="mono">← → / СВАЙП · ESC — ЗАКРЫТЬ</span><button id="viewer-next" aria-label="Следующая фотография">→</button></div>
+</dialog>
 <section class="contact wrap" id="contact"><div class="eyebrow muted">04 / ЕСТЬ ИДЕЯ?</div><div class="contact-main"><h2>Давай соберём<br>что-нибудь <em>интересное.</em></h2><a href="https://t.me/M_x_lev" target="_blank" rel="noopener noreferrer" class="contact-orb" aria-label="Написать в Telegram">↗</a></div><div class="contact-links"><div class="social-links"><a href="https://t.me/M_x_lev" target="_blank" rel="noopener noreferrer">Telegram ↗</a><a href="https://github.com/MXLev" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://codeforces.com/profile/lskuratov" target="_blank" rel="noopener noreferrer">Codeforces ↗</a></div><span class="mono muted small">КОД. КАДР. ЗВУК. ПОВТОРИТЬ.</span></div></section>
 </main>
 <footer class="wrap footer"><span>© <span id="year">2026</span> Лев Скуратов</span><span class="mono small">ПОСТОЯННО В ПРОЦЕССЕ <i class="live-dot"></i></span><a href="#">Наверх ↑</a></footer>

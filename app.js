@@ -36,7 +36,7 @@
   });
   renderMaterials();
   const bars = document.getElementById('sound-bars');
-  for (let i = 0; i < 57; i++) { const bar = document.createElement('i'); bar.style.height = `${14 + Math.abs(Math.sin(i * .68) * Math.cos(i * .21)) * 125}px`; bars.append(bar); }
+  if (bars) for (let i = 0; i < 57; i++) { const bar = document.createElement('i'); bar.style.height = `${14 + Math.abs(Math.sin(i * .68) * Math.cos(i * .21)) * 125}px`; bars.append(bar); }
 
   const canvas = document.getElementById('scope'), ctx = canvas.getContext('2d');
   if (!ctx) return;
